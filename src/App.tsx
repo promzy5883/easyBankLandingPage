@@ -9,6 +9,7 @@ function App() {
   const [secondLine, setSecondLine] = useState(1);
   const [thirdLine, setThirdLine] = useState("translateY(-0px) rotate(-0deg)");
   const [opacity, setOpacity] = useState("0");
+  const [zindex, setzindex] = useState("-1");
   const [top, setTop] = useState("-500px");
   return (
     <>
@@ -45,12 +46,14 @@ function App() {
                 setFirstLine("rotate(45deg) translateY(7px)");
                 setThirdLine("rotate(-45deg) translateY(-7px)");
                 setSecondLine(0);
+                setzindex("2");
               } else {
                 setOpacity("0");
                 setTop("-500px");
                 setSecondLine(1);
                 setFirstLine("rotate(0deg) translateY(0px)");
                 setThirdLine("rotate(0deg) translateY(0px)");
+                setzindex("-1");
               }
             }}
           >
@@ -59,7 +62,10 @@ function App() {
             <span style={{ transform: `${thirdLine}` }}></span>
           </div>
         </nav>
-        <div style={{ opacity: `${opacity}` }} className="blur"></div>
+        <div
+          style={{ opacity: `${opacity}`, zIndex: `${zindex}` }}
+          className="blur"
+        ></div>
         <section className="next_generation">
           <div className="digital">
             <div>
