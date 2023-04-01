@@ -305,8 +305,8 @@ footer {
   width: 100%;
   height: 2px;
   background-color: hsl(240, 2%, 63%);
-  border-radius: 50%;
-  transition: 0.5s;
+  border-radius: 10px;
+  transition: 0.3s;
 }
 .blur {
   position: fixed;
