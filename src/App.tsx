@@ -1,14 +1,31 @@
 import "./App.css";
 import SocialIcons from "./icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const button = <button className="request_button">Request Invite</button>;
   const { faceBook, youtube, twitter, pinterest, instagram } = SocialIcons();
+  const [scale, setScale] = useState("0");
   const [iconLink, setIconLink] = useState("images/icon-hamburger.svg");
   const [opacity, setOpacity] = useState("0");
   const [zindex, setzindex] = useState("-1");
-  const [top, setTop] = useState("-400px");
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 700) {
+      setScale("0");
+    } else {
+      setScale("1");
+    }
+  });
+
+  useEffect(() => {
+    if (window.innerWidth <= 700) {
+      setScale("0");
+    } else {
+      setScale("1");
+    }
+  }, []);
+
   return (
     <>
       <main className="main">
@@ -16,7 +33,7 @@ function App() {
           <div className="logo">
             <img src="/images/logo.svg" alt="" />
           </div>
-          <ul style={{ top: `${top}` }} className="nav_links">
+          <ul style={{ transform: `scaleY(${scale})` }} className="nav_links">
             <li>
               <a href="#">Home</a>
             </li>
@@ -38,14 +55,14 @@ function App() {
           <button
             className="menu_button"
             onClick={() => {
-              if (opacity === "0") {
+              if (scale === "0") {
+                setScale("1");
                 setOpacity("1");
-                setTop("80px");
                 setzindex("2");
                 setIconLink("images/icon-close.svg");
               } else {
+                setScale("0");
                 setOpacity("0");
-                setTop("-400px");
                 setzindex("-1");
                 setIconLink("images/icon-hamburger.svg");
               }
