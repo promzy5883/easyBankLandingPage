@@ -294,19 +294,8 @@ footer {
   color: hsl(233, 8%, 62%);
 }
 .menu_button {
-  width: 27px;
-  height: 20px;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3px;
-}
-.menu_button span {
-  width: 100%;
-  height: 2px;
-  background-color: hsl(240, 2%, 63%);
-  border-radius: 10px;
-  transition: 0.3s;
+  background-color: transparent;
+  border: none;
 }
 .blur {
   position: fixed;
@@ -420,7 +409,7 @@ footer {
   }
   .background div img {
     width: 100%;
-    transform: translateY(-175px) translateX(0px);
+    transform: translateY(-145px) translateX(0px);
   }
   .digital {
     height: 300px;

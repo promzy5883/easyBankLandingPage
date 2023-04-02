@@ -5,12 +5,10 @@ import { useState } from "react";
 function App() {
   const button = <button className="request_button">Request Invite</button>;
   const { faceBook, youtube, twitter, pinterest, instagram } = SocialIcons();
-  const [firstLine, setFirstLine] = useState("translateY(0px) rotate(0deg)");
-  const [secondLine, setSecondLine] = useState(1);
-  const [thirdLine, setThirdLine] = useState("translateY(-0px) rotate(-0deg)");
+  const [iconLink, setIconLink] = useState("images/icon-hamburger.svg");
   const [opacity, setOpacity] = useState("0");
   const [zindex, setzindex] = useState("-1");
-  const [top, setTop] = useState("-500px");
+  const [top, setTop] = useState("-400px");
   return (
     <>
       <main className="main">
@@ -37,30 +35,24 @@ function App() {
           </ul>
           <div className="nav_request">{button}</div>
 
-          <div
+          <button
             className="menu_button"
             onClick={() => {
               if (opacity === "0") {
                 setOpacity("1");
                 setTop("80px");
-                setFirstLine("rotate(45deg) translateY(7px)");
-                setThirdLine("rotate(-45deg) translateY(-7px)");
-                setSecondLine(0);
                 setzindex("2");
+                setIconLink("images/icon-close.svg");
               } else {
                 setOpacity("0");
-                setTop("-500px");
-                setSecondLine(1);
-                setFirstLine("rotate(0deg) translateY(0px)");
-                setThirdLine("rotate(0deg) translateY(0px)");
+                setTop("-400px");
                 setzindex("-1");
+                setIconLink("images/icon-hamburger.svg");
               }
             }}
           >
-            <span style={{ transform: `${firstLine}` }}></span>
-            <span style={{ opacity: `${secondLine}` }}></span>
-            <span style={{ transform: `${thirdLine}` }}></span>
-          </div>
+            <img src={`${iconLink}`} alt="" />
+          </button>
         </nav>
         <div
           style={{ opacity: `${opacity}`, zIndex: `${zindex}` }}
