@@ -1,30 +1,66 @@
 import "./App.css";
-import SocialIcons from "./icons";
+import Button from "./components/button";
 import { useState, useEffect } from "react";
+import LatestArticle from "./components/latestArticles";
+import Services from "./components/services";
+import Footer from "./components/Footer";
+import { navLinks } from "./components/data";
 
 function App() {
-  const button = <button className="request_button">Request Invite</button>;
-  const { faceBook, youtube, twitter, pinterest, instagram } = SocialIcons();
-  const [scale, setScale] = useState("0");
-  const [iconLink, setIconLink] = useState("images/icon-hamburger.svg");
-  const [opacity, setOpacity] = useState("0");
-  const [zindex, setzindex] = useState("-1");
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth <= 700) {
-      setScale("0");
-    } else {
-      setScale("1");
-    }
+  const [style, setStyle] = useState({
+    scale: "0",
+    iconLink: "images/icon-hamburger.svg",
+    opacity: "0",
+    zindex: "-1",
   });
 
-  useEffect(() => {
+  const toggleStyle = {
+    scale: (value: string) =>
+      setStyle((prev) => {
+        return { ...prev, scale: value };
+      }),
+    iconLink: (value: string) =>
+      setStyle((prev) => {
+        return { ...prev, iconLink: value };
+      }),
+    opacity: (value: string) =>
+      setStyle((prev) => {
+        return { ...prev, opacity: value };
+      }),
+    zindex: (value: string) =>
+      setStyle((prev) => {
+        return { ...prev, zindex: value };
+      }),
+  };
+
+  const handleResize = () => {
     if (window.innerWidth <= 700) {
-      setScale("0");
+      toggleStyle.scale("0");
     } else {
-      setScale("1");
+      toggleStyle.scale("1");
     }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      handleResize();
+    });
+    handleResize();
   }, []);
+
+  const toggleMenu = () => {
+    if (style.scale === "0") {
+      toggleStyle.scale("1");
+      toggleStyle.opacity("1");
+      toggleStyle.zindex("2");
+      toggleStyle.iconLink("images/icon-close.svg");
+    } else {
+      toggleStyle.scale("0");
+      toggleStyle.opacity("0");
+      toggleStyle.zindex("-1");
+      toggleStyle.iconLink("images/icon-hamburger.svg");
+    }
+  };
 
   return (
     <>
@@ -33,46 +69,28 @@ function App() {
           <div className="logo">
             <img src="/images/logo.svg" alt="" />
           </div>
-          <ul style={{ transform: `scaleY(${scale})` }} className="nav_links">
-            <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-            <li>
-              <a href="#">Blog</a>
-            </li>
-            <li>
-              <a href="#">Careers</a>
-            </li>
-          </ul>
-          <div className="nav_request">{button}</div>
-
-          <button
-            className="menu_button"
-            onClick={() => {
-              if (scale === "0") {
-                setScale("1");
-                setOpacity("1");
-                setzindex("2");
-                setIconLink("images/icon-close.svg");
-              } else {
-                setScale("0");
-                setOpacity("0");
-                setzindex("-1");
-                setIconLink("images/icon-hamburger.svg");
-              }
-            }}
+          <ul
+            style={{ transform: `scaleY(${style.scale})` }}
+            className="nav_links"
           >
-            <img src={`${iconLink}`} alt="" />
+            {navLinks.map((link) => {
+              return (
+                <li key={link}>
+                  <a href="#">{link}</a>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="nav_request">
+            <Button />
+          </div>
+
+          <button className="menu_button" onClick={toggleMenu}>
+            <img src={`${style.iconLink}`} alt="" />
           </button>
         </nav>
         <div
-          style={{ opacity: `${opacity}`, zIndex: `${zindex}` }}
+          style={{ opacity: `${style.opacity}`, zIndex: `${style.zindex}` }}
           className="blur"
         ></div>
         <section className="next_generation">
@@ -86,7 +104,7 @@ function App() {
                 one-stop-shop for spending, saving, budgeting, investing, and
                 much more.
               </p>
-              {button}
+              <Button />
             </div>
           </div>
           <div className="background">
@@ -101,143 +119,14 @@ function App() {
             We leverage Open Banking to turn your bank account into your
             financial hub. <br /> Control your finances like never before.
           </p>
-          <div className="services">
-            <div className="service_box">
-              <img src="/images/icon-online.svg" alt="" />
-              <p className="service_heading">Online Banking</p>
-              <p className="digital_paragraph">
-                Our modern web and mobile applications allow you to keep track
-                of your finances wherever you are in the world.
-              </p>
-            </div>
-            <div className="service_box">
-              <img src="/images/icon-budgeting.svg" alt="" />
-              <p className="service_heading">Simple Budgeting</p>
-              <p className="digital_paragraph">
-                See exactly where your money goes each month. Receive
-                notifications when you’re close to hitting your limits.
-              </p>
-            </div>
-            <div className="service_box">
-              <img src="/images/icon-onboarding.svg" alt="" />
-              <p className="service_heading">Fast Onboarding</p>
-              <p className="digital_paragraph">
-                We don’t do branches. Open your account in minutes online and
-                start taking control of your finances right away.
-              </p>
-            </div>
-            <div className="service_box">
-              <img src="/images/icon-api.svg" alt="" />
-              <p className="service_heading">Open API</p>
-              <p className="digital_paragraph">
-                Manage your savings, investments, pension, and much more from
-                one account. Tracking your money has never been easier.
-              </p>
-            </div>
-          </div>
+          <Services />
         </section>
         <section className="latest_article">
           <p className="article_heading">Latest Articles</p>
-          <div className="services">
-            <div className="article_box">
-              <div className="article_img one"></div>
-              <div className="article_blog">
-                <p className="aurthor">By Claire Robinson</p>
-                <p className="aurthor_title">
-                  Receive money in any currency with no fees
-                </p>
-                <p className="aurthor_text">
-                  The world is getting smaller and we’re becoming more mobile.
-                  So why should you be forced to only receive money in a single
-                  …
-                </p>
-              </div>
-            </div>
-            <div className="article_box">
-              <div className="article_img two"></div>
-              <div className="article_blog">
-                <p className="aurthor">By Wilson Hutton</p>
-                <p className="aurthor_title">
-                  Treat yourself without worrying about money
-                </p>
-                <p className="aurthor_text">
-                  Treat yourself without worrying about money Our simple
-                  budgeting feature allows you to separate out your spending and
-                  set realistic limits each month. That means you …
-                </p>
-              </div>
-            </div>
-            <div className="article_box">
-              <div className="article_img three"></div>
-              <div className="article_blog">
-                <p className="aurthor">By Wilson Hutton</p>
-                <p className="aurthor_title">
-                  Take your Easybank card wherever you go
-                </p>
-                <p className="aurthor_text">
-                  We want you to enjoy your travels. This is why we don’t charge
-                  any fees on purchases while you’re abroad. We’ll even show you
-                  …
-                </p>
-              </div>
-            </div>
-            <div className="article_box">
-              <div className="article_img four"></div>
-              <div className="article_blog">
-                <p className="aurthor">By Claire Robinson</p>
-                <p className="aurthor_title">
-                  Our invite-only Beta accounts are now live!
-                </p>
-                <p className="aurthor_text">
-                  After a lot of hard work by the whole team, we’re excited to
-                  launch our closed beta. It’s easy to request an invite through
-                  the site ...
-                </p>
-              </div>
-            </div>
-          </div>
+          <LatestArticle />
         </section>
       </main>
-      <footer>
-        <div className="footer_first_part">
-          <div className="footer_logo_box">
-            <img src="images/logo-footer.svg" alt="" />
-            <div className="social_icons">
-              {faceBook}
-              {youtube}
-              {twitter}
-              {pinterest}
-              {instagram}
-            </div>
-          </div>
-          <ul className="firstPartLinks">
-            <li>
-              <a href="#">About Us</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-            <li>
-              <a href="#">Blog</a>
-            </li>
-          </ul>
-          <ul className="firstPartLinks">
-            <li>
-              <a href="#">Careers</a>
-            </li>
-            <li>
-              <a href="#">Support</a>
-            </li>
-            <li>
-              <a href="#">Privacy Policy</a>
-            </li>
-          </ul>
-        </div>
-        <div className="footer_second_part">
-          {button}
-          <p>@Easybank. All Rights Reserved</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
